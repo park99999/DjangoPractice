@@ -18,9 +18,18 @@
     <link rel="stylesheet" href="{% static 'css/blog.css' %}" />
   </head>
   <body>
-    <div class="page-header">
+    <div>
       <h1>Base</h1>
       <a href="{% url 'home'%}">이전 페이지</a>
+      <br />
+      <br />
+      {{fulltext}}
+      <br />
+      <br />
+
+      {% for word, countTotal in dictionary %} {{ word }} - {{ countTotal }}
+      <br />
+      {% endfor %}
     </div>
   </body>
 </html>
