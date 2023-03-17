@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.utils import timezone
 from .models import Post
+from .models import Blog
 
 
 def post_list(request):
     posts = Post.objects.all()
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    blogs = Blog.objects
+    return render(request, 'blog/post_list.html', {'blogs': blogs})
 
 
 def base(request):
