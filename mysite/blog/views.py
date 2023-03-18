@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.utils import timezone
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from .models import Post
 from .models import Blog
 
@@ -14,6 +14,19 @@ def post_list(request):
 def detail(request, blog_id):
     blog_detail = get_object_or_404(Blog, pk=blog_id)
     return render(request, 'blog/detail.html', {'blog': blog_detail})
+
+
+def create(request):
+    return render(request, 'blog/create.html')
+
+
+def post_create(request):
+    blog = Blog()
+    blog.title = request.GET['title']
+    blog.body = request.GET['body']
+    blog.pub_date = timezone.datetime.now()
+    blog.save()
+    return redirect('/blog/detail/'+str(blog.id))
 
 
 def base(request):
