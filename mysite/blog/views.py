@@ -20,6 +20,18 @@ def create(request):
     return render(request, 'blog/create.html')
 
 
+def update(request, blog_id):
+    blog = Blog.objects.get(id=blog_id)
+    if request.method == "POST":
+        blog.title = request.POST['title']
+        blog.body = request.POST['body']
+        blog.pub_date = timezone.datetime.now()
+        blog.save()
+        return redirect('/blog/detail/'+str(blog.id))
+    else:
+        return render(request, 'blog/update.html')
+
+
 def post_create(request):
     blog = Blog()
     blog.title = request.GET['title']
