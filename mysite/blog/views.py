@@ -1,15 +1,19 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect
+from django.core.paginator import Paginator
 from .models import Post
 from .models import Blog
 from blog.forms import BlogUpdate
 
 
 def post_list(request):
-    posts = Post.objects.all()
     blogs = Blog.objects
-    return render(request, 'blog/post_list.html', {'blogs': blogs})
+    blog_list = Blog.objects.all().order_by('-id')
+    paginator = Paginator(blog_list, 3)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    return render(request, 'blog/post_list.html', {'blogs': blogs, 'posts': posts})
 
 
 def detail(request, blog_id):
