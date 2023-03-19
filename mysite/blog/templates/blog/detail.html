@@ -4,5 +4,6 @@
 <p>{{ blog.pub_date }}</p>
 <p>{{ blog.body }}</p>
 <a href="{% url 'update' blog.id %}">수정하기</a>
+<a href="{% url 'delete' blog.id %}">삭제하기</a>
 
 {% endblock %}

@@ -32,6 +32,12 @@ def update(request, blog_id):
         return render(request, 'blog/update.html')
 
 
+def delete(request, blog_id):
+    blog = Blog.objects.get(id=blog_id)
+    blog.delete()
+    return redirect('/')
+
+
 def post_create(request):
     blog = Blog()
     blog.title = request.GET['title']
