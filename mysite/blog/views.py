@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect
 from .models import Post
 from .models import Blog
+from blog.forms import BlogUpdate
 
 
 def post_list(request):
@@ -23,13 +24,16 @@ def create(request):
 def update(request, blog_id):
     blog = Blog.objects.get(id=blog_id)
     if request.method == "POST":
-        blog.title = request.POST['title']
-        blog.body = request.POST['body']
-        blog.pub_date = timezone.datetime.now()
-        blog.save()
-        return redirect('/blog/detail/'+str(blog.id))
+        form = BlogUpdate(request.POST)
+        if form.is_valid():
+            blog.title = request.POST['title']
+            blog.body = request.POST['body']
+            blog.pub_date = timezone.datetime.now()
+            blog.save()
+            return redirect('/blog/detail/'+str(blog.id))
     else:
-        return render(request, 'blog/update.html')
+        form = BlogUpdate(instance=blog)
+        return render(request, 'blog/update.html', {'form': form})
 
 
 def delete(request, blog_id):
