@@ -25,6 +25,16 @@ def create(request):
     return render(request, 'blog/create.html')
 
 
+def search(request):
+    blogs = Blog.objects.all().order_by('-id')
+    q = request.POST.get('q', "")
+    if q:
+        blogs = blogs.filter(title__icontains=q)
+        return render(request, 'blog/search.html', {'blogs': blogs, 'q': q})
+    else:
+        return render(request, 'blog/search.html')
+
+
 def update(request, blog_id):
     blog = Blog.objects.get(id=blog_id)
     if request.method == "POST":
