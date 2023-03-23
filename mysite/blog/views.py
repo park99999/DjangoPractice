@@ -43,6 +43,7 @@ def update(request, blog_id):
             blog.title = request.POST['title']
             blog.body = request.POST['body']
             blog.pub_date = timezone.datetime.now()
+            blog.images = form.cleaned_data['images']
             blog.save()
             return redirect('/blog/detail/'+str(blog.id))
     else:
@@ -58,9 +59,10 @@ def delete(request, blog_id):
 
 def post_create(request):
     blog = Blog()
-    blog.title = request.GET['title']
-    blog.body = request.GET['body']
+    blog.title = request.POST['title']
+    blog.body = request.POST['body']
     blog.pub_date = timezone.datetime.now()
+    blog.images = request.FILES['images']
     blog.save()
     return redirect('/blog/detail/'+str(blog.id))
 
